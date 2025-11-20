@@ -1,110 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Mahasiswa</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #e8f3f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profil Mahasiswa - Restyle</title>
+  <style>
+    :root{
+      --accent:#86c3bd;
+      --deep:#0b3b3a;
+      --blue:#0b54b3;
+      --red:#e21b1b;
+      --muted:#6b6b6b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: 'Poppins', Arial, Helvetica, sans-serif;
+      background:#f6f7f7; color:#0b0b0b;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
 
-        .container {
-            width: 800px;
-            position: relative;
-            padding: 50px 40px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-        }
+    /* COVER */
+    .cover{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:36px;
+      /* subtle background image (keeps text unchanged) */
+      background:
+        linear-gradient(180deg, rgba(250,252,251,0.95), rgba(250,252,251,0.95)),
+        url('/mnt/data/Angel-.png') center/cover no-repeat;
+    }
 
-        .bg-circle {
-            position: absolute;
-            bottom: -60px;
-            left: -60px;
-            width: 540px;
-            height: 540px;
-            background-color: #b3d7d4;
-            border-radius: 50%;
-            opacity: 0.6;
-            z-index: 1;
-        }
+    /* large pale circle at bottom (the teal semi-circle) */
+    .circle-large{
+      position:absolute;
+      left:-15%;
+      bottom:-28%;
+      width:95vmin;
+      height:95vmin;
+      border-radius:50%;
+      background:rgba(43,154,163,0.18);
+      z-index:0;
+    }
 
-        /* Header Text */
-        .header-text {
-            text-align: center;
-            margin-bottom: 100px;
-            position: relative;
-            z-index: 2;
-        }
+    /* small striped circle top-right for decoration */
+    .stripe-circle{
+      position:absolute;
+      right:6%;
+      top:6%;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:
+        repeating-linear-gradient(45deg, rgba(43,154,163,0.15) 0 8px, rgba(255,255,255,0) 8px 16px);
+      z-index:0;
+    }
 
-        .header-text h2 {
-            margin: 5px 0;
-            font-size: 28px;
-            font-weight: 700;
-            color: #000;
-            letter-spacing: 1px;
-            line-height: 1.4;
-        }
+    /* main content wrapper */
+    .content{
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:920px;
+      padding:40px 28px;
+      color:#0b0b0b;
+    }
 
-        /* Profile Section */
-        .profile-box {
-            text-align: center;
-            position: relative;
-            z-index: 3;
-        }
+    /* Titles — kept text identical to original */
+    .title-top h1{
+      margin:0;
+      font-size:28px;
+      font-weight:700;
+      letter-spacing:0.8px;
+    }
+    .title-top h2{
+      margin:6px 0 0;
+      font-size:28px;
+      font-weight:700;
+    }
 
-        .profile-photo {
-            width: 140px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-        }
+    .program{
+      margin-top:18px;
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:1px;
+    }
 
-        .student-name {
-            font-size: 20px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #000;
-        }
+    .big{
+      font-size:56px;
+      font-weight:800;
+      margin:8px 0 28px;
+      letter-spacing:1.2px;
+    }
 
-        .student-id {
-            font-size: 16px;
-            color: #444;
-        }
+    /* Profile area */
+    .profile-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      margin-top:6px;
+    }
 
-    </style>
+    /* circular mask with lower portion overlapping circle-large */
+    .portrait-mask{
+      width:520px;
+      height:520px;
+      border-radius:50%;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      transform:translateY(30px);
+      box-shadow:0 18px 40px rgba(0,0,0,0.12);
+      background:transparent;
+    }
+
+    .portrait-mask img{
+      width:70%;
+      height:auto;
+      object-fit:cover;
+      border-radius:6px;
+      /* move image slightly down to mimic composition */
+      transform:translateY(70px);
+      box-shadow:0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    /* name card like sample (white rectangle with shadow) */
+    .name-card{
+      margin-top:-40px;
+      position:relative;
+      display:inline-block;
+      padding:16px 26px;
+      background:#fff;
+      box-shadow:0 12px 28px rgba(0,0,0,0.14);
+      border-radius:6px;
+      font-weight:700;
+      min-width:320px;
+      text-align:center;
+    }
+
+    .name-card small{
+      display:block;
+      font-weight:600;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    /* decorative tabs (left blue, right red with nim text) */
+    .tab-left{
+      position:absolute;
+      left:-64px;
+      top:10px;
+      width:110px;
+      height:22px;
+      background:var(--blue);
+      transform:skewX(-6deg);
+      box-shadow:0 6px 12px rgba(0,0,0,0.12);
+    }
+
+    .tab-right{
+      position:absolute;
+      right:-14px;
+      bottom:-14px;
+      width:120px;
+      height:36px;
+      background:var(--red);
+      transform:skewX(-6deg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      box-shadow:0 6px 12px rgba(0,0,0,0.12);
+    }
+
+    /* small responsive rules */
+    @media (max-width:900px){
+      .portrait-mask{ width:420px; height:420px }
+      .portrait-mask img{ transform:translateY(50px); width:72% }
+      .big{ font-size:42px }
+    }
+    @media (max-width:600px){
+      .cover{ padding:18px }
+      .circle-large{ left:-40%; bottom:-60%; width:130vmin; height:130vmin }
+      .portrait-mask{ width:320px; height:320px }
+      .portrait-mask img{ width:78% ; transform:translateY(36px) }
+      .big{ font-size:30px }
+      .title-top h1, .title-top h2{ font-size:20px }
+      .name-card{ min-width:240px; padding:12px 18px }
+      .tab-left{ left:-44px; width:80px; height:16px; top:10px }
+      .tab-right{ right:-8px; width:90px; height:26px; bottom:-10px; font-size:13px }
+    }
+  </style>
 </head>
 <body>
+  <main class="cover">
+    <div class="circle-large" aria-hidden="true"></div>
+    <div class="stripe-circle" aria-hidden="true"></div>
 
-<div class="container">
-
-    <div class="bg-circle"></div>
-
-    <!-- Header -->
-    <div class="header-text">
-        <h2>PROFIL MAHASISWA</h2>
+    <div class="content">
+      <!-- TEXTS: tidak diubah (sesuai permintaan) -->
+      <div class="title-top">
+        <h1>PROFIL MAHASISWA</h1>
         <h2>STMIK PONTIANAK</h2>
-        <h2>PROGRAM STUDI</h2>
-        <h2>SISTEM INFORMASI</h2>
+      </div>
+
+      <div class="program">PROGRAM STUDI</div>
+      <div class="big">SISTEM INFORMASI</div>
+
+      <!-- PROFILE -->
+      <div class="profile-wrap">
+        <!-- portrait circle mask (gunakan file lokal yang Anda upload) -->
+        <div class="portrait-mask" role="img" aria-label="Foto profil mahasiswa">
+          <!-- GANTI src di bawah jika mau pakai URL lain.
+               Saat ini memakai path lokal dari upload: /mnt/data/555a060a-8ea9-4a9d-b1ca-7a99f0541c9c.png -->
+          <img src="/mnt/data/555a060a-8ea9-4a9d-b1ca-7a99f0541c9c.png" alt="Foto Profil">
+        </div>
+
+        <!-- Name card (teks tetap sama) -->
+        <div class="name-card">
+          OLDE S AGCIORTA LM
+          <small>231103892</small>
+
+          <div class="tab-left" aria-hidden="true"></div>
+          <div class="tab-right" aria-hidden="true">231103892</div>
+        </div>
+      </div>
     </div>
-
-    <!-- Foto, Nama dan NIM -->
-    <div class="profile-box">
-        <img class="profile-photo" src="https://i.pinimg.com/736x/c9/ee/10/c9ee108fca1a5b6fa2837599e6366dbe.jpg" alt="Foto Mahasiswa">
-        <div class="student-name">OLDES AGCIORTA LM</div>
-        <div class="student-id">231103892</div>
-    </div>
-
-</div>
-
+  </main>
 </body>
 </html>
